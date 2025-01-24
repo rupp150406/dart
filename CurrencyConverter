@@ -1,0 +1,112 @@
+import 'dart:io';
+
+void main() {
+  // Define conversion rates
+  const double dollarToRupiah = 15000; // Example rate
+  const double euroToRupiah = 16000; // Example rate
+  const double rupiahToDollar = 1 / dollarToRupiah;
+  const double rupiahToEuro = 1 / euroToRupiah;
+
+  print(' ');
+  print('====================================');
+  print('  Currency Converter, ahh program   ');
+  print('====================================');
+  print('Mata Uang Yang Tersedia:');
+  print('1. Dollar (USD)');
+  print('2. Euro (EUR)');
+  print('3. Rupiah (IDR)');
+  print(' ');
+  print('HINT: Tulis Aja brp duit yang mau di ubah,');
+  print('kalo dollar tulis nya desimal atau terserah');
+  print('kalo pake rupiah, tulis aja kek biasa tanpa desimal');
+  print(' ');
+
+  double? amount;
+  while (amount == null) {
+    // input angka buat proses
+    stdout.write('Mau tuker berapa dah? : ');
+    String? input = stdin.readLineSync();
+    print(' ');
+
+    // if statement untuk data kosong
+    if (input == null || input.isEmpty) {
+      print('mau tuker berapa kocak');
+      print(' ');
+      continue; // Lanjut input data
+    }
+
+    // if statement untuk data huruf
+    amount = double.tryParse(input);
+    if (amount == null) {
+      print('Input angka woi bukan huruf');
+      print(' ');
+    }
+  }
+
+  int fromCurrency;
+  while (true) {
+    // input data currency dari user
+    stdout.write('Konversi Dari? (1: USD, 2: EUR, 3: IDR): ');
+    fromCurrency = int.tryParse(stdin.readLineSync()!) ?? 0;
+    if (fromCurrency >= 1 && fromCurrency <= 3) break;
+    print(' ');
+    print(
+        'Tulis antara 1 2 atau nggak 3, woi jangan tulis huruf atau di kosongin ');
+    print(' ');
+  }
+
+  int toCurrency;
+  while (true) {
+    // Get user input for currency to convert to
+    stdout.write('Konversi Ke? (1: USD, 2: EUR, 3: IDR): ');
+    toCurrency = int.tryParse(stdin.readLineSync()!) ?? 0;
+    if (toCurrency >= 1 && toCurrency <= 3) break;
+    print(' ');
+    print(
+        'Tulis antara 1 2 atau nggak 3, woi jangan tulis huruf atau di kosongin ');
+    print(' ');
+  }
+  double convertedAmount = 0;
+
+  // Conversion logic
+  if (fromCurrency == 1) {
+    // From Dollar
+    if (toCurrency == 2) {
+      convertedAmount = amount * (dollarToRupiah / euroToRupiah);
+    } else if (toCurrency == 3) {
+      convertedAmount = amount * dollarToRupiah;
+    }
+  } else if (fromCurrency == 2) {
+    // From Euro
+    if (toCurrency == 1) {
+      convertedAmount = amount * (euroToRupiah / dollarToRupiah);
+    } else if (toCurrency == 3) {
+      convertedAmount = amount * euroToRupiah;
+    }
+  } else if (fromCurrency == 3) {
+    // From Rupiah
+    if (toCurrency == 1) {
+      convertedAmount = amount * rupiahToDollar;
+    } else if (toCurrency == 2) {
+      convertedAmount = amount * rupiahToEuro;
+    }
+  }
+
+  print(' ');
+  print('====================================');
+  print('Jumlah Konversi: $convertedAmount');
+  print('====================================');
+  print(' ');
+
+// sesi lanjut atau nggk
+  stdout.write(
+      'Mau lanjut nuker? ( Tulis Y kalau mau lanjut, atau tulis apa aja kalau mau berhenti ) ');
+  String? continueResponse = stdin.readLineSync();
+  if (continueResponse?.toLowerCase() == 'y') {
+    main(); // masuk ke awal
+  } else {
+    print(' ');
+    print('PROGRAM KECIL CUMA BUAT HIBURAN, BUKAN CUAN');
+    print(' ');
+  }
+}
